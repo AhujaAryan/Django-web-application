@@ -1,22 +1,22 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes//Importing the api_view and permission_classes decorators from the Django REST Framework.
+from rest_framework.permissions import AllowAny//Importing the AllowAny permission class from the Django REST Framework.
+from rest_framework.response import Response//Importing the Response class from the Django REST Framework, which is used to create HTTP responses.
 
-from .models import Event, Participant
-from .serializers import EventSerializer, ParticipantSerializer
+from .models import Event, Participant//Importing the Event and Participant models from the current application.
+from .serializers import EventSerializer, ParticipantSerializer// Importing the EventSerializer and ParticipantSerializer serializers from the current application.
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def get_upcoming_events(request):
+def get_upcoming_events(request)://Definition of the get_upcoming_events function, which handles the logic for retrieving a list of upcoming events.
     # Retrieve a list of upcoming events
     events = Event.objects.filter(date__gt=datetime.now())
-    serializer = EventSerializer(events, many=True)
-    return Response(serializer.data)
+    serializer = EventSerializer(events, many=True)//Serializing the events queryset using the EventSerializer with many=True parameter, as there can be multiple events.
+    return Response(serializer.data)//Returning a HTTP response with the serialized event data.
 
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
+@api_view(['GET'])//Decorator that marks the following function as an API view that only responds to GET requests.
+@permission_classes([AllowAny])//Decorator that specifies the permissions required to access the API view. I to access the view.to any user
 def filter_events(request):
     # Filter events based on categories, tags, date, or location
     # Implement your filtering logic here
